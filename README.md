@@ -27,7 +27,7 @@ for a quick generation.
 - "LMO_BIRTH_LOCATION"
 - "LMO_ADDRESS"
 - "LMO_CITY"
-- "LMO_REASON"
+- "LMO_REASON" (supported values : "work", "food", "family", "health", "sport", "justice", "mission")
 
 With this method just pipe the output directly to the `lp` command and you're
 out !
