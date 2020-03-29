@@ -25,7 +25,7 @@ certifie que mon déplacement est lié au motif suivant (cocher la case) autori
 [<% if @values["LMO_REASON"] == "mission"%>X<% else %> <% end %>] Participation à des missions d’intérêt général sur demande de l’autorité administrative.
 
 Fait à : <%= @values["LMO_CITY"] %>
-Le : <%= Time.now.strftime("%d/%m/%Y %H:%M") %>
+Le : <%= @time %>
 (Date et heure de début de sortie à mentionner obligatoirement)
 
 Signature :

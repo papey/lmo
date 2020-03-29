@@ -10,9 +10,19 @@ require 'optparse'
 class LMO
 
     # init values
-    def initialize values
+    def initialize values, delay
+        # get current time
+        now = Time.now
         @values = values
         @template = File.read("./templates/attestation.erb")
+        # handle delay if specified
+        if delay != nil then
+            time = now + delay*60
+        else
+            time = now
+        end
+        # dedicated attribute
+        @time = time.strftime("%d/%m/%Y %H:%M")
     end
 
     # generate string
@@ -49,6 +59,16 @@ OptionParser.new do |opts|
     # output to file
     opts.on("-o", "--output=FILE", "write output to file file") do |v|
         options[:out] = v
+    end
+
+    # add time to current date if specified
+    opts.on("-d", "--delay=MINUTES", "delay departure using specified value") do |v|
+        delay = v.to_i
+        if delay == 0 then
+            puts "[Error] specified delay value `#{v}` is either 0 or not an int value"
+            exit 1
+        end
+        options[:delay] = delay
     end
 end.parse!
 
@@ -87,7 +107,7 @@ KEYS.each do |key|
 end
 
 # Create class and bind values to it
-current = LMO.new values
+current = LMO.new values, options[:delay]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
