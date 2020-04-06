@@ -5,16 +5,25 @@
 require 'erb'
 # optparse for cli args handling
 require 'optparse'
+# qrcode
+require 'rqrcode'
 
 # Tiny class handling all the variables
 class LMO
 
     # init values
-    def initialize values, delay
+    def initialize values, delay, qr
         # get current time
         now = Time.now
+        # travail-courses-sante-famille-sport-judiciaire-missions
+        @translate = Hash["work" => "travail", "food" => "courses", "family" => "famille",
+            "health" => "sante", "sport" => "sport", "justice" => "judiciaire", "mission" => "missions" ]
         @values = values
-        @template = File.read("./templates/attestation.erb")
+        if qr
+            @template = File.read("./templates/qrcode.erb")
+        else
+            @template = File.read("./templates/attestation.erb")
+        end
         # handle delay if specified
         if delay != nil then
             time = now + delay*60
@@ -60,6 +69,11 @@ OptionParser.new do |opts|
     # output to file
     opts.on("-o", "--output=FILE", "write output to file file") do |v|
         options[:out] = v
+    end
+
+    # use qrcode
+    opts.on("-qr", "--qrcode", "output to qrcode (plain text data if no output specified, as svg image if output specified") do |v|
+        options[:qr] = v
     end
 
     # add time to current date if specified
@@ -108,7 +122,7 @@ KEYS.each do |key|
 end
 
 # Create class and bind values to it
-current = LMO.new values, options[:delay]
+current = LMO.new values, options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
@@ -117,7 +131,19 @@ log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
 if options.key?(:out) then
     # if args, use the first one as output file
     out = File.new options[:out], "w"
-    out.puts current.fill
+    if options[:qr]
+        log options, "Using QRCode output"
+        qr = RQRCode::QRCode.new(current.fill)
+        out.puts qr.as_svg(
+            offset: 0,
+            color: '000',
+            shape_rendering: 'crispEdges',
+            module_size: 6,
+            standalone: true
+        )
+    else
+        out.puts current.fill
+    end
     out.close
     log options, "Writing output to file #{options[:out]}"
 else
