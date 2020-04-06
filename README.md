@@ -19,7 +19,7 @@ ruby lmo.rb --help
 
 #### Advanced usage
 
-LMO can fetch key value pairs directly from env. Add thoose to you `.profile`
+LMO can fetch key value pairs directly from env. Add thoose to your `.profile`
 for a quick generation.
 
 - "LMO_NAME"
