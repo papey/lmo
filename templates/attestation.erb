@@ -2,7 +2,7 @@ ATTESTATION DE DÉPLACEMENT DÉROGATOIRE
 En application de l’article 3 du décret du 23 mars 2020 prescrivant les mesures générales nécessaires pour faire face à l’épidémie de Covid19 dans le cadre de l’état d’urgence sanitaire
 
 Je soussigné(e)
-Mme/M. : <%= @values["LMO_NAME"] %>
+Mme/M. : <%= @values["LMO_NAME"] %> <%= @values["LMO_FIRSTNAME"] %>
 Né(e) le : <%= @values["LMO_BIRTH_DATE"] %>
 À : <%= @values["LMO_BIRTH_LOCATION"] %>
 Demeurant : <%= @values["LMO_ADDRESS"] %>
@@ -25,7 +25,7 @@ certifie que mon déplacement est lié au motif suivant (cocher la case) autori
 [<% if @values["LMO_REASON"] == "mission"%>X<% else %> <% end %>] Participation à des missions d’intérêt général sur demande de l’autorité administrative.
 
 Fait à : <%= @values["LMO_CITY"] %>
-Le : <%= @time %>
+Le : <%= @date %> a <%= @time %>
 (Date et heure de début de sortie à mentionner obligatoirement)
 
 Signature :

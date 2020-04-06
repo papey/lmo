@@ -22,7 +22,8 @@ class LMO
             time = now
         end
         # dedicated attribute
-        @time = time.strftime("%d/%m/%Y %H:%M")
+        @date = time.strftime("%d/%m/%Y")
+        @time = time.strftime("%H:%M")
     end
 
     # generate string
@@ -73,7 +74,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # list keys
-KEYS = ["LMO_NAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_ADDRESS", "LMO_CITY", "LMO_REASON"]
+KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_ADDRESS", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
 REASONS = ["work", "food", "family", "health", "sport", "justice", "mission"]
