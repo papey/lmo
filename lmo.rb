@@ -88,7 +88,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # list keys
-KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_ADDRESS", "LMO_CITY", "LMO_REASON"]
+KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
 REASONS = ["work", "food", "family", "health", "sport", "justice", "mission"]
