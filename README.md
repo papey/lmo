@@ -35,7 +35,8 @@ for a quick generation.
 - "LMO_FIRSTNAME"
 - "LMO_BIRTH_DATE"
 - "LMO_BIRTH_LOCATION"
-- "LMO_ADDRESS"
+- "LMO_STREET"
+- "LMO_POSTAL_CODE"
 - "LMO_CITY"
 - "LMO_REASON" (supported values : "work", "food", "family", "health", "sport", "justice", "mission")
 
