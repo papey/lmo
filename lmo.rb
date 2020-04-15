@@ -103,7 +103,25 @@ values = Hash.new
 KEYS.each do |key|
     # if key found, take value
     if ENV[key] then
-        values[key] = ENV[key]
+        # get value
+        value = ENV[key]
+        # reason is an edge case
+        if key == "LMO_REASON" then
+            unless REASONS.include? value
+                puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
+                exit 1
+            end
+            values[key] = value
+        # birth date is an edge case too
+        elsif key == "LMO_BIRTH_DATE" then
+            unless value.match(bdmatch)
+                puts "Error, birth date from environment is not valid (format DD/MM/YYYY)"
+                exit 1
+            end
+            values[key] = value
+        else
+            values[key] = value
+        end
         log options, "Found value #{values[key]} for key `#{key}``"
     # if not found, ask user
     else
