@@ -93,6 +93,9 @@ KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LM
 # list valid reasons
 REASONS = ["work", "food", "family", "health", "sport", "justice", "mission"]
 
+# birth date regex
+bdmatch = '\d\d\/\d\d\/\d\d\d\d'
+
 # create a hash containing values
 values = Hash.new
 
@@ -114,9 +117,17 @@ KEYS.each do |key|
                 try = gets.chomp.downcase
             end
             values[key] = try
+        # birth date is an edge case too
+        elsif key == "LMO_BIRTH_DATE" then
+            try = ""
+            until try.match(bdmatch)
+                puts "Enter a value for key #{printable} (format : DD/MM/YYYY)"
+                try = gets.chomp
+            end
+            values[key] = try
         else
-        puts "Enter a value for key `#{printable}` :"
-        values[key] = gets.chomp
+            puts "Enter a value for key `#{printable}` :"
+            values[key] = gets.chomp
         end
     end
 end
