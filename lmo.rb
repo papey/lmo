@@ -106,7 +106,7 @@ KEYS.each do |key|
     else
         # make things pretty
         printable = key.slice(4, key.length).downcase.gsub("_", " ")
-        # reason is a edge case
+        # reason is an edge case
         if key == "LMO_REASON" then
             try = ""
             until REASONS.include? try
