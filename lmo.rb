@@ -124,7 +124,7 @@ KEYS.each do |key|
         value = ENV[key]
         # reason is an edge case
         if key == "LMO_REASONS" then
-            try = gets.chomp.downcase.split(',')
+            try = ENV[key].chomp.downcase.split(',')
             unless (try & REASONS) == try
                 puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
                 exit 1
