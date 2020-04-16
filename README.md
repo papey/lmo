@@ -38,7 +38,7 @@ for a quick generation.
 - "LMO_STREET"
 - "LMO_POSTAL_CODE"
 - "LMO_CITY"
-- "LMO_REASON" (supported values : "work", "food", "family", "health", "sport", "justice", "mission")
+- "LMO_REASONS" (supported values : "work", "food", "family", "health", "sport", "justice", "mission" [comma separated value for multiple reasons])
 
 With this method just pipe the output directly to the `lp` command and you're
 out !

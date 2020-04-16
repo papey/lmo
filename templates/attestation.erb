@@ -10,19 +10,19 @@ Demeurant : <%= @values["LMO_STREET"] %> <%= @values["LMO_POSTAL_CODE"] %> <%= 
 
 certifie que mon déplacement est lié au motif suivant (cocher la case) autorisé par l’article 3 du décret du 23 mars 2020 prescrivant les mesures générales nécessaires pour faire face à l’épidémie de Covid19 dans le cadre de l’état d’urgence sanitaire (1) :
 
-[<% if @values["LMO_REASON"] == "work" %>X<% else %> <% end %>] Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle, lorsqu’ils sont indispensables à l’exercice d’activités ne pouvant être organisées sous forme de télétravail ou déplacements professionnels ne pouvant être différés (2).
+[<% if @reasons.include? "travail" %>X<% else %> <% end %>] Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle, lorsqu’ils sont indispensables à l’exercice d’activités ne pouvant être organisées sous forme de télétravail ou déplacements professionnels ne pouvant être différés (2).
 
-[<% if @values["LMO_REASON"] == "food" %>X<% else %> <% end %>] Déplacements pour effectuer des achats de fournitures nécessaires à l’activité professionnelle et des achats de première nécessité (3) dans des établissements dont les activités demeurent autorisées (liste sur gouvernement.fr).
+[<% if @reasons.include? "courses" %>X<% else %> <% end %>] Déplacements pour effectuer des achats de fournitures nécessaires à l’activité professionnelle et des achats de première nécessité (3) dans des établissements dont les activités demeurent autorisées (liste sur gouvernement.fr).
 
-[<% if @values["LMO_REASON"] == "health" %>X<% else %> <% end %>] Consultations et soins ne pouvant être assurés à distance et ne pouvant être différés ; consultations et soins des patients atteints d'une affection de longue durée.
+[<% if @reasons.include? "sante" %>X<% else %> <% end %>] Consultations et soins ne pouvant être assurés à distance et ne pouvant être différés ; consultations et soins des patients atteints d'une affection de longue durée.
 
-[<% if @values["LMO_REASON"] == "family"%>X<% else %> <% end %>] Déplacements pour motif familial impérieux, pour l’assistance aux personnes vulnérables ou la garde d’enfants.
+[<% if @reasons.include? "famille" %>X<% else %> <% end %>] Déplacements pour motif familial impérieux, pour l’assistance aux personnes vulnérables ou la garde d’enfants.
 
-[<% if @values["LMO_REASON"] == "sport"%>X<% else %> <% end %>] Déplacements brefs, dans la limite d'une heure quotidienne et dans un rayon maximal d'un kilomètre autour du domicile, liés soit à l'activité physique individuelle des personnes, à l'exclusion de toute pratique sportive collective et de toute proximité avec d'autres personnes, soit à la promenade avec les seules personnes regroupées dans un même domicile, soit aux besoins des animaux de compagnie.
+[<% if @reasons.include? "sport" %>X<% else %> <% end %>] Déplacements brefs, dans la limite d'une heure quotidienne et dans un rayon maximal d'un kilomètre autour du domicile, liés soit à l'activité physique individuelle des personnes, à l'exclusion de toute pratique sportive collective et de toute proximité avec d'autres personnes, soit à la promenade avec les seules personnes regroupées dans un même domicile, soit aux besoins des animaux de compagnie.
 
-[<% if @values["LMO_REASON"] == "justice"%>X<% else %> <% end %>] Convocation judiciaire ou administrative.
+[<% if @reasons.include? "justice" %>X<% else %> <% end %>] Convocation judiciaire ou administrative.
 
-[<% if @values["LMO_REASON"] == "mission"%>X<% else %> <% end %>] Participation à des missions d’intérêt général sur demande de l’autorité administrative.
+[<% if @reasons.include? "missions" %>X<% else %> <% end %>] Participation à des missions d’intérêt général sur demande de l’autorité administrative.
 
 Fait à : <%= @values["LMO_CITY"] %>
 Le : <%= @date %> a <%= @time %>

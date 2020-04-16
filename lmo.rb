@@ -12,24 +12,38 @@ require 'rqrcode'
 class LMO
 
     # init values
-    def initialize values, delay, qr
+    def initialize values, reasons, delay, qr
         # get current time
         now = Time.now
-        # travail-courses-sante-famille-sport-judiciaire-missions
+
+        # translation from english to french
         @translate = Hash["work" => "travail", "food" => "courses", "family" => "famille",
-            "health" => "sante", "sport" => "sport", "justice" => "judiciaire", "mission" => "missions" ]
+            "health" => "sante", "sport" => "sport", "justice" => "judiciaire", "mission" => "missions"]
+
+        # travail-courses-sante-famille-sport-judiciaire-missions
+        # order is used to ensure order is respected in qrcode when using multiple reasons
+        @order = ["travail", "courses", "sante", "famille", "sport", "judiciaire", "missions"]
+        # reasons, translated, ordered
+        reasons = reasons.map { |elem| @translate[elem] }
+        @reasons = @order & reasons
+
+        # map values fetch from env or cli
         @values = values
+
+        # qrcode or text file
         if qr
             @template = File.read("./templates/qrcode.erb")
         else
             @template = File.read("./templates/attestation.erb")
         end
+
         # handle delay if specified
         if delay != nil then
             time = now + delay*60
         else
             time = now
         end
+
         # dedicated attribute
         @date = time.strftime("%d/%m/%Y")
         @time = time.strftime("%H:%M")
@@ -88,7 +102,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # list keys
-KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
+KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASONS"]
 
 # list valid reasons
 REASONS = ["work", "food", "family", "health", "sport", "justice", "mission"]
@@ -99,6 +113,9 @@ bdmatch = '\d\d\/\d\d\/\d\d\d\d'
 # create a hash containing values
 values = Hash.new
 
+# array containing reasons
+reasons = []
+
 # iter on each key, try fetching from env first
 KEYS.each do |key|
     # if key found, take value
@@ -106,12 +123,13 @@ KEYS.each do |key|
         # get value
         value = ENV[key]
         # reason is an edge case
-        if key == "LMO_REASON" then
-            unless REASONS.include? value
+        if key == "LMO_REASONS" then
+            try = gets.chomp.downcase.split(',')
+            unless (try & REASONS) == try
                 puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
                 exit 1
             end
-            values[key] = value
+            reasons = try
         # birth date is an edge case too
         elsif key == "LMO_BIRTH_DATE" then
             unless value.match(bdmatch)
@@ -128,13 +146,13 @@ KEYS.each do |key|
         # make things pretty
         printable = key.slice(4, key.length).downcase.gsub("_", " ")
         # reason is an edge case
-        if key == "LMO_REASON" then
-            try = ""
-            until REASONS.include? try
-                puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")}):"
-                try = gets.chomp.downcase
+        if key == "LMO_REASONS" then
+            try = ['init']
+            until (try & REASONS) == try
+                puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")} [comma separated value for multiple reasons]):"
+                try = gets.chomp.downcase.split(',')
             end
-            values[key] = try
+            reasons = try
         # birth date is an edge case too
         elsif key == "LMO_BIRTH_DATE" then
             try = ""
@@ -151,7 +169,7 @@ KEYS.each do |key|
 end
 
 # Create class and bind values to it
-current = LMO.new values, options[:delay], options[:qr]
+current = LMO.new values, reasons, options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
