@@ -12,20 +12,17 @@ require 'rqrcode'
 class LMO
 
     # init values
-    def initialize values, reasons, delay, qr
+    def initialize values, reason, delay, qr
         # get current time
         now = Time.now
 
-        # translation from english to french
-        @translate = Hash["work" => "travail", "food" => "courses", "family" => "famille",
-            "health" => "sante", "sport" => "sport", "justice" => "judiciaire", "mission" => "missions"]
+        # translation from english to french            #
+        @translate = Hash["work" => "travail", "health" => "sante", "family" => "famille",
+            "handicap" => "handicap", "justice" => "convocation",
+            "missions" => "missions", "transits" => "transits",
+            "pets" => "animaux"]
 
-        # travail-courses-sante-famille-sport-judiciaire-missions
-        # order is used to ensure order is respected in qrcode when using multiple reasons
-        @order = ["travail", "courses", "sante", "famille", "sport", "judiciaire", "missions"]
-        # reasons, translated, ordered
-        reasons = reasons.map { |elem| @translate[elem] }
-        @reasons = @order & reasons
+        @reason = @translate[reason]
 
         # map values fetch from env or cli
         @values = values
@@ -102,10 +99,10 @@ OptionParser.new do |opts|
 end.parse!
 
 # list keys
-KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASONS"]
+KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
-REASONS = ["work", "food", "family", "health", "sport", "justice", "mission"]
+REASONS = ["work", "health", "family", "handicap", "justice", "missions", "transits", "pets"]
 
 # birth date regex
 bdmatch = '\d\d\/\d\d\/\d\d\d\d'
@@ -113,8 +110,8 @@ bdmatch = '\d\d\/\d\d\/\d\d\d\d'
 # create a hash containing values
 values = Hash.new
 
-# array containing reasons
-reasons = []
+# reason
+reason = ""
 
 # iter on each key, try fetching from env first
 KEYS.each do |key|
@@ -123,13 +120,13 @@ KEYS.each do |key|
         # get value
         value = ENV[key]
         # reason is an edge case
-        if key == "LMO_REASONS" then
-            try = ENV[key].chomp.downcase.split(',')
-            unless (try & REASONS) == try
+        if key == "LMO_REASON" then
+            try = ENV[key]
+            unless REASONS.include? try
                 puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
                 exit 1
             end
-            reasons = try
+            reason = try
         # birth date is an edge case too
         elsif key == "LMO_BIRTH_DATE" then
             unless value.match(bdmatch)
@@ -146,13 +143,13 @@ KEYS.each do |key|
         # make things pretty
         printable = key.slice(4, key.length).downcase.gsub("_", " ")
         # reason is an edge case
-        if key == "LMO_REASONS" then
-            try = ['init']
-            until (try & REASONS) == try
-                puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")} [comma separated value for multiple reasons]):"
-                try = gets.chomp.downcase.split(',')
+        if key == "LMO_REASON" then
+            try = ""
+            until REASONS.include? try
+                puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")} only):"
+                try = gets.chomp.downcase
             end
-            reasons = try
+            reason = try
         # birth date is an edge case too
         elsif key == "LMO_BIRTH_DATE" then
             try = ""
@@ -169,7 +166,7 @@ KEYS.each do |key|
 end
 
 # Create class and bind values to it
-current = LMO.new values, reasons, options[:delay], options[:qr]
+current = LMO.new values, reason, options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
