@@ -59,5 +59,5 @@ def get_values(keys, reasons)
         end
     end
 
-    return values
+    values
 end

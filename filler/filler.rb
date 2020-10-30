@@ -47,7 +47,7 @@ class Filler
 
     def gen_qr()
         qr = RQRCode::QRCode.new(self.fill_qr)
-        return qr.as_svg(
+        qr.as_svg(
             offset: 0,
             color: '000',
             shape_rendering: 'crispEdges',
