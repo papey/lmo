@@ -28,7 +28,7 @@ class Mails
             :via_options => options,
             :subject => subject,
             :body => subject,
-            :attachments => {"qr.svg" => qr, "certificate.txt" => certificate}
+            :attachments => {"qr.svg" => qr.as_svg(), "certificate.txt" => certificate}
         })
     end
 end

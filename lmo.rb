@@ -91,7 +91,7 @@ if options.key?(:out) then
     out = File.new options[:out], "w"
     if options[:qr]
         log options, "Using QRCode output"
-        out.puts f.gen_qr
+        out.puts f.gen_qr.as_svg()
     else
         out.puts "#{f.fill}\n"
     end
