@@ -56,4 +56,9 @@ class Filler
         )
     end
 
+    def id
+        date = Time.now.strftime("%d/%m/%Y - %H:%M")
+        "#{@values["LMO_NAME"]} - #{@values["LMO_FIRSTNAME"]} - #{date}"
+    end
+
 end

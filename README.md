@@ -45,6 +45,28 @@ out !
 
 You can also output your attestation as a SVG QRCode with a combo of `-qr` and `-o` options !
 
+### Forwarders
+
+LMO can also send certificate and asssociated `svg` to multiple ouputs.
+
+This outputs are enabled with the `-f` flag
+
+Each forwarder requires a specific configuration, specified bellow
+
+#### Mail
+
+Enabled with `-f mail`
+
+- "LMO_MAIL_DEST", destination mail address
+- "LMO_MAIL_PORT", smtp server port
+- "LMO_MAIL_USER", smtp server user
+- "LMO_MAIL_PASSWORD" smtp server password
+- "LMO_MAIL_SERVER", smtp server address
+
+With **Google** and **2FA**, you need to [create an application with application password](https://support.google.com/accounts/answer/185833?hl=en).
+
+Use this password as `LMO_MAIL_PASSWORD` value.
+
 ## Authors
 
 - **Wilfried OLLIVIER** - _Main author_ - [Papey](https://github.com/papey)

@@ -11,6 +11,8 @@ require 'rqrcode'
 require './filler/filler.rb'
 # values
 require './utils/values.rb'
+# forwarders
+require './forwarder/mails.rb'
 
 # log, used in verbose mode
 def log opts, message
@@ -55,7 +57,20 @@ OptionParser.new do |opts|
         end
         options[:delay] = delay
     end
+
+    # forwarder
+    opts.on("-f", "--forward=FORWARDER", "forward the certificate to selected endpoint (available choices: mails)") do |v|
+        options[:forward] = v
+    end
 end.parse!
+
+# supported forwarders
+FORWARDERS = ["mail"]
+
+if options[:forward] && !FORWARDERS.include?(options[:forward]) then
+    puts "Error: #{options[:forward]} forwarder is not supported (available choices : #{FORWARDERS.join(", ")})"
+    exit 1
+end
 
 # list keys
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
@@ -77,10 +92,22 @@ if options.key?(:out) then
         log options, "Using QRCode output"
         out.puts f.gen_qr
     else
-        out.puts f.fill
+        out.puts "#{f.fill}\n"
     end
     out.close
     log options, "Writing output to file #{options[:out]}"
 else
-    puts f.fill
+    puts "#{f.fill}\n"
+end
+
+if options[:forward] then
+    fwd = nil
+    case options[:forward]
+    when "mail"
+        fwd = Mails.new
+    else
+        puts "Error: #{options[:forward]} forwarder is not supported"
+    end
+
+    fwd.send(f.fill, f.gen_qr, f.id) unless fwd.nil?
 end
