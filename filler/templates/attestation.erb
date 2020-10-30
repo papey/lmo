@@ -1,5 +1,6 @@
 ATTESTATION DE DÉPLACEMENT DÉROGATOIRE
-En application de l'article 51 du décret n° 2020-1262 du 16 octobre 2020 prescrivant les mesures générales nécessaires pour faire face à l'épidémie de covid-19 dans le cadre de l'état d'urgence sanitaire
+En application des mesures générales nécessaires pour faire face à l’épidémie de covid-19
+dans le cadre de l’état d’urgence sanitaire.
 
 Je soussigné(e),
 Mme/M. : <%= @values["LMO_NAME"] %> <%= @values["LMO_FIRSTNAME"] %>
@@ -8,28 +9,28 @@ Demeurant : <%= @values["LMO_STREET"] %> <%= @values["LMO_POSTAL_CODE"] %> <%= 
 
 certifie que mon déplacement est lié au motif suivant (cocher la case) autorisé en application des mesures générales nécessaires pour faire face à l'épidémie de Covid19 dans le cadre de l'état d'urgence sanitaire1 :
 
-[<% if @values["LMO_REASON"] == "travail" %>X<% else %> <% end %>] Déplacements entre le domicile et le lieu d'exercice de l'activité professionnelle ou le lieu d'enseignement et de formation
-
-[<% if @values["LMO_REASON"] == "sante" %>X<% else %> <% end %>] Déplacements pour des consultations et soins ne pouvant être assurés à distance et ne pouvant être différés ou pour l'achat de produits de santé
-
-[<% if @values["LMO_REASON"] == "famille" %>X<% else %> <% end %>] Déplacements pour motif familial impérieux, pour l'assistance aux personnes vulnérables ou précaires ou pour la garde d'enfants
-
-[<% if @values["LMO_REASON"] == "handicap" %>X<% else %> <% end %>] Déplacements des personnes en situation de handicap et de leur accompagnant
-
-[<% if @values["LMO_REASON"] == "justice" %>X<% else %> <% end %>] Déplacements pour répondre à une convocation judiciaire ou administrative
-
-[<% if @values["LMO_REASON"] == "mission" %>X<% else %> <% end %>] Déplacements pour participer à des missions d'intérêt général sur demande de l'autorité administrative
-
-[<% if @values["LMO_REASON"] == "transit" %>X<% else %> <% end %>] Déplacements liés à des transits pour des déplacements de longues distances
-
-[<% if @values["LMO_REASON"] == "animaux" %>X<% else %> <% end %>] Déplacements brefs, dans un rayon maximal d'un kilomètre autour du domicile pour les besoins des animaux de compagnie
+[<% if @values["LMO_REASON"] == "travail" %>X<% else %> <% end %>] Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle ou un établissement d’enseignement ou de formation, déplacements professionnels ne pouvant être différés, déplacements pour un concours ou un examen.
+[<% if @values["LMO_REASON"] == "achats" %>X<% else %> <% end %>] Déplacements pour effectuer des achats de fournitures nécessaires à l'activité professionnelle, des achats de première nécessité3 dans des établissements dont les activités demeurent autorisées, le retrait de commande et les livraisons à domicile.
+[<% if @values["LMO_REASON"] == "sante" %>X<% else %> <% end %>] Consultations, examens et soins ne pouvant être ni assurés  à distance ni différés et l’achat de médicaments.
+[<% if @values["LMO_REASON"] == "famille" %>X<% else %> <% end %>] Déplacements pour motif familial impérieux, pour l'assistance aux personnes vulnérables et précaires ou la garde d'enfants.
+[<% if @values["LMO_REASON"] == "handicap" %>X<% else %> <% end %>] Déplacement des personnes en situation de handicap et leur accompagnant.
+[<% if @values["LMO_REASON"] == "sport_animaux" %>X<% else %> <% end %>] Déplacements brefs, dans la limite d'une heure quotidienne et dans un rayon maximal d'un kilomètre autour du domicile, liés soit à l'activité physique individuelle des personnes, à l'exclusion de toute pratique sportive collective et de toute proximité avec d'autres personnes, soit à la promenade avec les seules personnes regroupées dans un même domicile, soit aux besoins des animaux de compagnie.
+[<% if @values["LMO_REASON"] == "convocation" %>X<% else %> <% end %>] Convocation judiciaire ou administrative et pour se rendre dans un service public
+[<% if @values["LMO_REASON"] == "missions" %>X<% else %> <% end %>] Participation à des missions d'intérêt général sur demande de l'autorité administrative
+[<% if @values["LMO_REASON"] == "enfants" %>X<% else %> <% end %>] Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires
 
 Fait à : <%= @values["LMO_CITY"] %>
-Le : <%= @date %> à <%= @time %>
+Le : <%= Time.now.strftime("%d/%m/%Y") %> à <%= Time.now.strftime("%Hh%M") %>
+
 (Date et heure de début de sortie à mentionner obligatoirement)
+
+<%= @date %> à <%= @time %>
 
 Signature :
 
 
 
+
     1 Les personnes souhaitant bénéficier de l'une de ces exceptions doivent se munir s'il y a lieu, lors de leurs déplacements hors de leur domicile, d'un document leur permettant de justifier que le déplacement considéré entre dans le champ de l'une de ces exceptions.
+    2 A utiliser par les travailleurs non-salariés, lorsqu'ils ne peuvent disposer d'un justificatif de déplacement établi par leur employeur.
+    3 Y compris les acquisitions à titre gratuit (distribution de denrées alimentaires...) et les déplacements liés à la perception de prestations sociales et au retrait d'espèces.

@@ -21,7 +21,7 @@ def get_values(keys, reasons)
                     puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
                     exit 1
                 end
-                reason = try
+                values[key] = try
             # birth date is an edge case too
             elsif key == "LMO_BIRTH_DATE" then
                 unless value.match(bdmatch)
@@ -32,7 +32,6 @@ def get_values(keys, reasons)
             else
                 values[key] = value
             end
-            log options, "Found value #{values[key]} for key `#{key}``"
         # if not found, ask user
         else
             # make things pretty
@@ -41,7 +40,7 @@ def get_values(keys, reasons)
             if key == "LMO_REASON" then
                 try = ""
                 until reasons.include? try
-                    puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")} only):"
+                    puts "Enter a value for key #{printable} (available choices (one only) : #{REASONS.join(", ")}):"
                     try = gets.chomp.downcase
                 end
                 values[key] = try

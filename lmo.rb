@@ -61,7 +61,7 @@ end.parse!
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
-REASONS = ["work", "health", "family", "handicap", "justice", "missions", "transits", "pets"]
+REASONS = ["work", "purchase", "health", "familly", "handicap", "sport", "pets", "missions", "justice", "children"]
 
 # Create class and bind values to it
 f = Filler.new get_values(KEYS, REASONS), options[:delay], options[:qr]

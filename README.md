@@ -5,7 +5,7 @@ This is not a dance !
 LMO is a ruby app used to generate french "attestation de déplacement dérogatoire"
 directly from cli.
 
-Now supports QRCode output to SVG and it's also "couvre-feu" approved !
+Now supports QRCode output to SVG ! Covid Season 2 approved !
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ for a quick generation.
 - "LMO_STREET"
 - "LMO_POSTAL_CODE"
 - "LMO_CITY"
-- "LMO_REASON" (supported values : "work", "health", "family", "handicap", "justice", "missions", "transits", "pets")
+- "LMO_REASON" (supported values : "work", "purchase", "health", "familly", "handicap", "pets", "sport", "justice", "missions", "children")
 
 With this method just pipe the output directly to the `lp` command and you're
 out !
