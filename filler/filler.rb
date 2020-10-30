@@ -1,3 +1,6 @@
+# qrcode
+require 'rqrcode'
+
 # Tiny class handling all the variables
 class Filler
 
@@ -40,6 +43,17 @@ class Filler
 
     def fill_qr
         ERB.new(@qr).result(binding)
+    end
+
+    def gen_qr()
+        qr = RQRCode::QRCode.new(self.fill_qr)
+        return qr.as_svg(
+            offset: 0,
+            color: '000',
+            shape_rendering: 'crispEdges',
+            module_size: 6,
+            standalone: true
+        )
     end
 
 end

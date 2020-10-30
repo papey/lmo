@@ -75,14 +75,7 @@ if options.key?(:out) then
     out = File.new options[:out], "w"
     if options[:qr]
         log options, "Using QRCode output"
-        qr = RQRCode::QRCode.new(f.fill_qr)
-        out.puts qr.as_svg(
-            offset: 0,
-            color: '000',
-            shape_rendering: 'crispEdges',
-            module_size: 6,
-            standalone: true
-        )
+        out.puts f.gen_qr
     else
         out.puts f.fill
     end
