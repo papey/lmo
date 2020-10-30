@@ -67,6 +67,18 @@ With **Google** and **2FA**, you need to [create an application with application
 
 Use this password as `LMO_MAIL_PASSWORD` value.
 
+#### Telegram
+
+Create a [Telegram Bot](https://core.telegram.org/bots#creating-a-new-bot) and save the bot token
+
+Enabled with `-f telegram`
+
+- "LMO_TELEGRAM_CHAT", destination chat ID
+- "LMO_TELEGRAM_TOKEN", bot token
+
+To get your **Telegram Chat ID**, invite your bot to a channel, send a dummy message to it (do not forget to mention it with @botname),
+check `https://api.telegram.org/bot$BOT_TOKEN/getUpdates` and replace bot token value.
+
 ## Authors
 
 - **Wilfried OLLIVIER** - _Main author_ - [Papey](https://github.com/papey)

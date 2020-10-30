@@ -66,7 +66,7 @@ OptionParser.new do |opts|
 end.parse!
 
 # supported forwarders
-FORWARDERS = ["mail"]
+FORWARDERS = ["mail", "telegram"]
 
 if options[:forward] && !FORWARDERS.include?(options[:forward]) then
     puts "Error: #{options[:forward]} forwarder is not supported (available choices : #{FORWARDERS.join(", ")})"
@@ -106,6 +106,8 @@ if options[:forward] then
     case options[:forward]
     when "mail"
         fwd = Mails.new
+    when "telegram"
+        fwd = Tlgrm.new
     else
         puts "Error: #{options[:forward]} forwarder is not supported"
     end
