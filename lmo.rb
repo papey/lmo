@@ -8,11 +8,12 @@ require 'optparse'
 # qrcode
 require 'rqrcode'
 # filler
-require './filler/filler.rb'
+require './filler/filler'
 # values
-require './utils/values.rb'
+require './utils/values'
 # forwarders
-require './forwarder/mails.rb'
+require './forwarder/mails'
+require './forwarder/telegram'
 
 # log, used in verbose mode
 def log opts, message
