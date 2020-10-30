@@ -7,51 +7,10 @@ require 'erb'
 require 'optparse'
 # qrcode
 require 'rqrcode'
-
-# Tiny class handling all the variables
-class LMO
-
-    # init values
-    def initialize values, reason, delay, qr
-        # get current time
-        now = Time.now
-
-        # translation from english to french            #
-        @translate = Hash["work" => "travail", "health" => "sante", "family" => "famille",
-            "handicap" => "handicap", "justice" => "convocation",
-            "missions" => "missions", "transits" => "transits",
-            "pets" => "animaux"]
-
-        @reason = @translate[reason]
-
-        # map values fetch from env or cli
-        @values = values
-
-        # qrcode or text file
-        if qr
-            @template = File.read("./templates/qrcode.erb")
-        else
-            @template = File.read("./templates/attestation.erb")
-        end
-
-        # handle delay if specified
-        if delay != nil then
-            time = now + delay*60
-        else
-            time = now
-        end
-
-        # dedicated attribute
-        @date = time.strftime("%d/%m/%Y")
-        @time = time.strftime("%H:%M")
-    end
-
-    # generate string
-    def fill
-        ERB.new(@template).result(binding)
-    end
-
-end
+# filler
+require './filler/filler.rb'
+# values
+require './utils/values.rb'
 
 # log, used in verbose mode
 def log opts, message
@@ -104,69 +63,8 @@ KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LM
 # list valid reasons
 REASONS = ["work", "health", "family", "handicap", "justice", "missions", "transits", "pets"]
 
-# birth date regex
-bdmatch = '\d\d\/\d\d\/\d\d\d\d'
-
-# create a hash containing values
-values = Hash.new
-
-# reason
-reason = ""
-
-# iter on each key, try fetching from env first
-KEYS.each do |key|
-    # if key found, take value
-    if ENV[key] then
-        # get value
-        value = ENV[key]
-        # reason is an edge case
-        if key == "LMO_REASON" then
-            try = ENV[key]
-            unless REASONS.include? try
-                puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
-                exit 1
-            end
-            reason = try
-        # birth date is an edge case too
-        elsif key == "LMO_BIRTH_DATE" then
-            unless value.match(bdmatch)
-                puts "Error, birth date from environment is not valid (format DD/MM/YYYY)"
-                exit 1
-            end
-            values[key] = value
-        else
-            values[key] = value
-        end
-        log options, "Found value #{values[key]} for key `#{key}``"
-    # if not found, ask user
-    else
-        # make things pretty
-        printable = key.slice(4, key.length).downcase.gsub("_", " ")
-        # reason is an edge case
-        if key == "LMO_REASON" then
-            try = ""
-            until REASONS.include? try
-                puts "Enter a value for key #{printable} (available choices : #{REASONS.join(", ")} only):"
-                try = gets.chomp.downcase
-            end
-            reason = try
-        # birth date is an edge case too
-        elsif key == "LMO_BIRTH_DATE" then
-            try = ""
-            until try.match(bdmatch)
-                puts "Enter a value for key #{printable} (format : DD/MM/YYYY)"
-                try = gets.chomp
-            end
-            values[key] = try
-        else
-            puts "Enter a value for key `#{printable}` :"
-            values[key] = gets.chomp
-        end
-    end
-end
-
 # Create class and bind values to it
-current = LMO.new values, reason, options[:delay], options[:qr]
+f = Filler.new get_values(KEYS, REASONS), options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
@@ -177,7 +75,7 @@ if options.key?(:out) then
     out = File.new options[:out], "w"
     if options[:qr]
         log options, "Using QRCode output"
-        qr = RQRCode::QRCode.new(current.fill)
+        qr = RQRCode::QRCode.new(f.fill_qr)
         out.puts qr.as_svg(
             offset: 0,
             color: '000',
@@ -186,10 +84,10 @@ if options.key?(:out) then
             standalone: true
         )
     else
-        out.puts current.fill
+        out.puts f.fill
     end
     out.close
     log options, "Writing output to file #{options[:out]}"
 else
-    puts current.fill
+    puts f.fill
 end
