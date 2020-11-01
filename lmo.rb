@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 
 # requirements
-# erb, for templating
-require 'erb'
 # optparse for cli args handling
 require 'optparse'
 # qrcode

@@ -1,5 +1,6 @@
 # qrcode
 require 'rqrcode'
+require 'erb'
 
 # Tiny class handling all the variables
 class Filler
