@@ -6,7 +6,7 @@ require 'erb'
 class Filler
 
     # init values
-    def initialize values, delay, qr, templates="./filler/templates"
+    def initialize values, delay=nil, from=nil, templates="./filler/templates"
         # get current time
         now = Time.now
 
@@ -35,6 +35,15 @@ class Filler
         # dedicated attribute
         @date = time.strftime("%d/%m/%Y")
         @time = time.strftime("%H:%M")
+
+        # handle created time shift if specified
+        if from != nil then
+            created = now - from*60
+        else
+            created = now
+        end
+
+        @created = created
     end
 
     # generate string
@@ -51,8 +60,8 @@ class Filler
     end
 
     def id
-        date = Time.now.strftime("%d/%m/%Y - %H:%M")
-        "#{@values["LMO_NAME"]} - #{@values["LMO_FIRSTNAME"]} - #{date}"
+        date = @created.strftime("%d/%m/%Y - %H:%M")
+        "#{@values["LMO_NAME"]} #{@values["LMO_FIRSTNAME"]} | #{date} | #{@values["LMO_REASON"]}"
     end
 
 end

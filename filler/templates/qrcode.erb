@@ -1,4 +1,4 @@
-Cree le: <%= Time.now.strftime("%d/%m/%Y") %> a <%= Time.now.strftime("%Hh%M") %>; 
+Cree le: <%= @created.strftime("%d/%m/%Y") %> a <%= @created.strftime("%Hh%M") %>; 
 Nom: <%= @values["LMO_NAME"] %>; 
 Prenom: <%= @values["LMO_FIRSTNAME"] %>; 
 Naissance: <%= @values["LMO_BIRTH_DATE"] %> a <%= @values["LMO_BIRTH_LOCATION"] %>; 

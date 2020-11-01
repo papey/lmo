@@ -20,7 +20,7 @@ certifie que mon déplacement est lié au motif suivant (cocher la case) autoris
 [<% if @values["LMO_REASON"] == "enfants" %>X<% else %> <% end %>] Déplacement pour chercher les enfants à l’école et à l’occasion de leurs activités périscolaires
 
 Fait à : <%= @values["LMO_CITY"] %>
-Le : <%= Time.now.strftime("%d/%m/%Y") %> à <%= Time.now.strftime("%Hh%M") %>
+Le : <%= @created.strftime("%d/%m/%Y") %> à <%= @created.strftime("%Hh%M") %>
 
 (Date et heure de début de sortie à mentionner obligatoirement)
 

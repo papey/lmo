@@ -62,6 +62,16 @@ OptionParser.new do |opts|
         options[:profile] = v
     end
 
+    # delay creation date
+    opts.on("-s", "--shift=MINUTES", "shift creation time in the past using specified value") do |v|
+        shift = v.to_i
+        if shift == 0 then
+            puts "[Error] specified delay value `#{v}` is either 0 or not an int value"
+            exit 1
+        end
+        options[:shift] = shift
+    end
+
     # add time to current date if specified
     opts.on("-d", "--delay=MINUTES", "delay departure using specified value") do |v|
         delay = v.to_i
@@ -106,7 +116,7 @@ else
 end
 
 # Create class and bind values to it
-f = Filler.new values, options[:delay], options[:qr]
+f = Filler.new values, options[:delay], options[:shift]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
