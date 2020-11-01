@@ -12,11 +12,11 @@ class Tlgrm
         Telegram::Bot::Client.run(@token) do |bot|
             # certificate
             cert = temp(certificate, "cert")
-            bot.api.send_document(chat_id: @chat, document: Faraday::UploadIO.new(cert.path, 'text/plain'), caption: "Certificate #{subject}")
+            bot.api.send_document(chat_id: @chat, document: Faraday::UploadIO.new(cert.path, 'text/plain'), caption: "Certificate: #{subject}")
             cert.unlink
             # svg
             qrcode = temp(qr.as_png(size: 500), "qrcode")
-            bot.api.send_photo(chat_id: @chat, photo: Faraday::UploadIO.new(qrcode.path, 'image/png'), caption: "QR Code #{subject}")
+            bot.api.send_photo(chat_id: @chat, photo: Faraday::UploadIO.new(qrcode.path, 'image/png'), caption: "QR Code: #{subject}")
             qrcode.unlink
         end
     end
