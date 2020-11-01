@@ -103,7 +103,7 @@ check `https://api.telegram.org/bot$BOT_TOKEN/getUpdates` and replace bot token 
 
 ### Bot usage
 
-LMO now supports a Telegram Bot mode ! (kudos @tomMoulard for the motivation)
+LMO now supports a Telegram Bot mode ! (kudos [@tomMoulard](https://github.com/tomMoulard) for the motivation)
 
 ```bash
 LMO_TELEGRAM_TOKEN=VALUE bundle exec ruby bot/bot.rb
