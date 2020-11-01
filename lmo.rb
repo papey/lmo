@@ -59,6 +59,11 @@ OptionParser.new do |opts|
         end
     end
 
+    # use custom profile
+    opts.on("-p", "--profile=PROFILE", "path to a profile.yml file") do |v|
+        options[:profile] = v
+    end
+
     # add time to current date if specified
     opts.on("-d", "--delay=MINUTES", "delay departure using specified value") do |v|
         delay = v.to_i
@@ -83,8 +88,27 @@ if options[:forward] && !FORWARDERS.include?(options[:forward]) then
     exit 1
 end
 
+if options[:profile] && !options[:reason] then
+    puts "Error: profile option needs reason option to be set"
+    exit 1
+end
+
+values = nil
+
+if options[:profile] then
+    log options, "Reading from profile #{options[:profile]}"
+    begin
+        values = values_from_profile(options[:profile], options[:reason])
+    rescue => exception
+        puts exception
+        exit 1
+    end
+else
+    values = get_values(options[:reason])
+end
+
 # Create class and bind values to it
-f = Filler.new get_values(options[:reason]), options[:delay], options[:qr]
+f = Filler.new values, options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"

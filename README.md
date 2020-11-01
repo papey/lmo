@@ -45,6 +45,28 @@ out !
 
 You can also output your attestation as a SVG QRCode with a combo of `-qr` and `-o` options !
 
+#### Profiles
+
+```yaml
+name: NAME
+firstname: Firstname
+birth_date: 01/11/1990
+birth_location: City
+street: address
+postal_code: code
+city: city
+```
+
+LMO can read from key value pairs from profile files. Profile files are `.yml` file put in `profiles dir`. By default, profile dir is set to `~/.config/lmo/profiles` and can be customize with `LMO_PROFILES_DIR` env value.
+
+When using a profile, just use `-p` to select profile name and `-r` flag to select a reason.
+
+For example, using profile `example` from `~/.config/lmo/profiles/example.yml` with reason `purchase`
+
+```bash
+bundle exec ruby lmo.rb -r purchase -p example
+```
+
 ### Forwarders
 
 LMO can also send certificate and asssociated `svg` to multiple ouputs.

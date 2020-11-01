@@ -1,3 +1,4 @@
+require 'yaml'
 
 # list keys
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
@@ -73,4 +74,23 @@ def get_values(reason=nil)
     end
 
     values
+end
+
+def values_from_profile(profile, reason)
+    directory = ENV["LMO_PROFILES_DIR"] || "#{ENV["HOME"]}/.config/lmo/profiles"
+    directory = directory.chomp("/")
+    content = YAML.load(File.read("#{directory}/#{profile}.yml"))
+
+    validation = {"LMO_REASON" => reason}
+    content.each do |key, value|
+        validation["LMO_#{key.upcase}"] = value
+    end
+
+    KEYS.each do |key|
+        if key != "LMO_REASON" then
+            raise "Error: key #{key.slice(4, key.length).downcase.gsub("_", " ")} is missing from profile file" unless validation[key]
+        end
+    end
+
+    validation
 end
