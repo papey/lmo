@@ -1,0 +1,16 @@
+kind: pipeline
+name: main
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: papey/lmo
+      auto_tag: true
+      build_args:
+        - REVISION=$$CI_COMMIT
+        - RELEASE_TAG=$$CI_TAG

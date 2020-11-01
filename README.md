@@ -101,6 +101,26 @@ Enabled with `-f telegram`
 To get your **Telegram Chat ID**, invite your bot to a channel, send a dummy message to it (do not forget to mention it with @botname),
 check `https://api.telegram.org/bot$BOT_TOKEN/getUpdates` and replace bot token value.
 
+### Bot usage
+
+LMO now supports a Telegram Bot mode ! (kudos @tomMoulard for the motivation)
+
+```bash
+LMO_TELEGRAM_TOKEN=VALUE bundle exec ruby bot/bot.rb
+```
+
+Use `/start` or `/help` to get help message.
+
+This mode use profile files as decribe in profiles section. Profile name is the Telegram user ID. To get your ID ask `/me` to the bot instance.
+
+#### Docker container
+
+A [Docker container](https://hub.docker.com/r/papey/lmo) is available with bot mode as default.
+
+```bash
+docker container run e LMO_TELEGRAM_TOKEN=VALUE -v /path/to/profile:/srv/lmo/profiles papey/lmo:latest
+```
+
 ## Authors
 
 - **Wilfried OLLIVIER** - _Main author_ - [Papey](https://github.com/papey)

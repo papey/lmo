@@ -1,5 +1,5 @@
 require 'telegram/bot'
-require 'tempfile'
+require './utils/temp'
 
 class Tlgrm
 
@@ -21,10 +21,4 @@ class Tlgrm
         end
     end
 
-    def temp(content, title)
-        file = Tempfile.new(title)
-        file.write content
-        file.close
-        file
-    end
 end
