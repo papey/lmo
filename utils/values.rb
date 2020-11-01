@@ -1,15 +1,26 @@
 
+# list keys
+KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
+
+# list valid reasons
+REASONS = ["work", "purchase", "health", "familly", "handicap", "sport", "pets", "missions", "justice", "children"]
 
 # get values for each key
-def get_values(keys, reasons)
+def get_values(reason=nil)
     # birth date regex
     bdmatch = '\d\d\/\d\d\/\d\d\d\d'
 
     # create a hash containing values
     values = Hash.new
 
+    # set reason if passed as argument
+    unless reason.nil?
+        raise "Invalid reason" if !REASONS.include?(reason)
+        values["LMO_REASON"] = reason
+    end
+
     # iter on each key, try fetching from env first
-    keys.each do |key|
+    KEYS.each do |key|
         # if key found, take value
         if ENV[key] then
             # get value
@@ -38,12 +49,14 @@ def get_values(keys, reasons)
             printable = key.slice(4, key.length).downcase.gsub("_", " ")
             # reason is an edge case
             if key == "LMO_REASON" then
-                try = ""
-                until reasons.include? try
-                    puts "Enter a value for key #{printable} (available choices (one only) : #{REASONS.join(", ")}):"
-                    try = gets.chomp.downcase
+                if reason.nil?
+                    try = ""
+                    until reasons.include? try
+                        puts "Enter a value for key #{printable} (available choices (one only) : #{REASONS.join(", ")}):"
+                        try = gets.chomp.downcase
+                    end
+                    values[key] = try
                 end
-                values[key] = try
             # birth date is an edge case too
             elsif key == "LMO_BIRTH_DATE" then
                 try = ""

@@ -49,6 +49,16 @@ OptionParser.new do |opts|
         options[:qr] = v
     end
 
+    # use custom reason
+    opts.on("-r", "--reason=REASON", "pass reason as parameter (available choices : #{REASONS.join(", ")})") do |v|
+        if REASONS.include?(v.downcase)
+            options[:reason] = v
+        else
+            puts "[Error] specified delay value `#{v.downcase}` is not a valid reason"
+            exit 1
+        end
+    end
+
     # add time to current date if specified
     opts.on("-d", "--delay=MINUTES", "delay departure using specified value") do |v|
         delay = v.to_i
@@ -73,14 +83,8 @@ if options[:forward] && !FORWARDERS.include?(options[:forward]) then
     exit 1
 end
 
-# list keys
-KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
-
-# list valid reasons
-REASONS = ["work", "purchase", "health", "familly", "handicap", "sport", "pets", "missions", "justice", "children"]
-
 # Create class and bind values to it
-f = Filler.new get_values(KEYS, REASONS), options[:delay], options[:qr]
+f = Filler.new get_values(options[:reason]), options[:delay], options[:qr]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
