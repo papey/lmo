@@ -115,7 +115,7 @@ This mode use profile files as decribe in profiles section. Profile name is the 
 
 #### Docker container
 
-A [Docker container](https://hub.docker.com/r/papey/lmo) is available with bot mode as default.
+A [Docker container](https://hub.docker.com/r/papey/lmo) (builded from my [personnal CI](https://drone.github.papey.fr/papey/lmo)) is available with bot mode as default.
 
 ```bash
 docker container run e LMO_TELEGRAM_TOKEN=VALUE -v /path/to/profile:/srv/lmo/profiles papey/lmo:latest
