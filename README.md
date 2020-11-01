@@ -3,7 +3,7 @@
 This is not a dance !
 
 LMO is a ruby app used to generate french "attestation de déplacement dérogatoire"
-directly from cli.
+directly from cli (and it's also a Telegram Bot, duh).
 
 Now supports QRCode output to SVG ! Covid Season 2 approved !
 
@@ -20,13 +20,13 @@ Now supports QRCode output to SVG ! Covid Season 2 approved !
 bundle install
 ```
 
-### Usage
+### Usage (cli mode)
 
 ```sh
 bundle exec ruby lmo.rb --help
 ```
 
-#### Advanced usage
+#### Get values from env
 
 LMO can fetch key value pairs directly from env. Add thoose to your `.profile`
 for a quick generation.
@@ -43,9 +43,7 @@ for a quick generation.
 With this method just pipe the output directly to the `lp` command and you're
 out !
 
-You can also output your attestation as a SVG QRCode with a combo of `-qr` and `-o` options !
-
-#### Profiles
+#### Get values from profiles
 
 ```yaml
 name: NAME
@@ -67,15 +65,15 @@ For example, using profile `example` from `~/.config/lmo/profiles/example.yml` w
 bundle exec ruby lmo.rb -r purchase -p example
 ```
 
-### Forwarders
+#### Forwarders
 
-LMO can also send certificate and asssociated `svg` to multiple ouputs.
+LMO can also send certificate and asssociated QR Code to multiple ouputs.
 
 This outputs are enabled with the `-f` flag
 
 Each forwarder requires a specific configuration, specified bellow
 
-#### Mail
+##### Mail
 
 Enabled with `-f mail`
 
@@ -89,7 +87,7 @@ With **Google** and **2FA**, you need to [create an application with application
 
 Use this password as `LMO_MAIL_PASSWORD` value.
 
-#### Telegram
+##### Telegram
 
 Create a [Telegram Bot](https://core.telegram.org/bots#creating-a-new-bot) and save the bot token
 
@@ -101,7 +99,7 @@ Enabled with `-f telegram`
 To get your **Telegram Chat ID**, invite your bot to a channel, send a dummy message to it (do not forget to mention it with @botname),
 check `https://api.telegram.org/bot$BOT_TOKEN/getUpdates` and replace bot token value.
 
-### Bot usage
+### Usage (bot mode)
 
 LMO now supports a Telegram Bot mode ! (kudos [@tomMoulard](https://github.com/tomMoulard) for the motivation)
 
