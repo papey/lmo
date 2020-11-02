@@ -6,7 +6,7 @@ require 'erb'
 class Filler
 
     # init values
-    def initialize values, delay=nil, from=nil, templates="./filler/templates"
+    def initialize values, delay=0, from=0, templates="./filler/templates"
         # get current time
         now = Time.now
 
@@ -26,24 +26,14 @@ class Filler
         @text = File.read("#{templates}/attestation.erb")
 
         # handle delay if specified
-        if delay != nil then
-            time = now + delay*60
-        else
-            time = now
-        end
+        time = now + delay*60
 
         # dedicated attribute
         @date = time.strftime("%d/%m/%Y")
         @time = time.strftime("%H:%M")
 
         # handle created time shift if specified
-        if from != nil then
-            created = now - from*60
-        else
-            created = now
-        end
-
-        @created = created
+        @created = now + from*60
     end
 
     # generate string

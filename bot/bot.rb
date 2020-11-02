@@ -8,19 +8,29 @@ def parse_gen_args(message)
     args = message.split
     args.shift
     raise "Error: can't generate certificate without reason (see /help)" if args.empty?
-    reason = args.shift
+    reason = args.shift.chomp
     raise "Error: can't generate certificate with unvalid reason `#{reason}`" unless REASONS.include?(reason)
-    sanitized = Array.new
-    args.each do |v|
-        try = v.to_i
-        raise "Error: remaining arguments of gen command needs to be integers > 0" if try == 0
-        sanitized << try
+    delay = args.shift.chomp
+    unless delay.nil?
+        raise "Error: delay value is not an integer" if delay.to_i == 0 && delay == "0"
+    end
+    shift = args.shift
+    unless shift.nil?
+        raise "Error: shift value is not a negative integer" if shift.to_i >= 0
     end
 
-    return reason, sanitized[0], sanitized[1]
+    # safely convert since checks are donne before
+    delay = delay.to_i
+    shift = shift.to_i
+
+    if Time.now + shift*60 > Time.now + delay*60 then
+        raise "Error: creation time is after departure time check shift and delay options"
+    end
+
+    return reason, delay, shift
 end
 
-def generate_and_send(bot, message, reason, delay=nil, shift=nil)
+def generate_and_send(bot, message, reason, delay=0, shift=0)
     # get values
     values = values_from_profile(message.from.id, reason)
     # init filler
@@ -48,8 +58,8 @@ Available commands for LMO
     - /gen <reason> <delay> (optional) <shift> (optional): generate a certificate for command author using specified reason
         Arguments:
             reasons: #{REASONS.join(", ")}
-            delay: integer, delay departure time to now + n minutes
-            shift: integer, shift creation time to now - n minutes
+            delay: integer, delay departure time from now +/- N minutes (supports positive and negative values)
+            shift: integer < 0, shift creation time from nom to N minutes in the past (supports only negative values)
 END
 
 # bot entry point

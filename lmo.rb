@@ -22,7 +22,7 @@ end
 
 # parse command line arguments
 # store everyting in a Hmap
-options = {}
+options = {:delay => 0, :shift => 0}
 OptionParser.new do |opts|
     opts.banner = "Usage: lmo.rb [options]"
 
@@ -63,17 +63,17 @@ OptionParser.new do |opts|
     end
 
     # delay creation date
-    opts.on("-s", "--shift=MINUTES", "shift creation time in the past using specified value") do |v|
+    opts.on("-s", "--shift=MINUTES", "shift creation time in the past using specified value where MINUTES is an integer < 0") do |v|
         shift = v.to_i
-        if shift == 0 then
-            puts "[Error] specified delay value `#{v}` is either 0 or not an int value"
+        if shift >= 0 then
+            puts "[Error] specified shift value `#{v}` is either 0 or not a negative int value"
             exit 1
         end
         options[:shift] = shift
     end
 
     # add time to current date if specified
-    opts.on("-d", "--delay=MINUTES", "delay departure using specified value") do |v|
+    opts.on("-d", "--delay=MINUTES", "delay departure using specified value where MINUTES is an integer != 0") do |v|
         delay = v.to_i
         if delay == 0 then
             puts "[Error] specified delay value `#{v}` is either 0 or not an int value"
@@ -90,6 +90,12 @@ end.parse!
 
 # supported forwarders
 FORWARDERS = ["mail", "telegram"]
+
+# check if timeshift is valid
+if Time.now + options[:shift]*60 > Time.now + options[:delay]*60 then
+    puts "Error: creation time is after departure time check shift and delay options"
+    exit 1
+end
 
 if options[:forward] && !FORWARDERS.include?(options[:forward]) then
     puts "Error: #{options[:forward]} forwarder is not supported (available choices : #{FORWARDERS.join(", ")})"
