@@ -43,7 +43,7 @@ OptionParser.new do |opts|
     end
 
     # use qrcode
-    opts.on("-qr", "--qrcode", "output to qrcode (plain text data if no output specified, as svg image if output specified") do |v|
+    opts.on("-qr", "--qrcode", "output to qrcode (plain text data if no output specified, as svg image if output specified)") do |v|
         options[:qr] = v
     end
 
