@@ -12,7 +12,7 @@ def parse_gen_args(message)
     raise "Error: can't generate certificate with unvalid reason `#{reason}`" unless REASONS.include?(reason)
     delay = args.shift.chomp
     unless delay.nil?
-        raise "Error: delay value is not an integer" if delay.to_i == 0 && delay == "0"
+        raise "Error: delay value is not an integer" if delay.to_i == 0 && delay != "0"
     end
     shift = args.shift
     unless shift.nil?
