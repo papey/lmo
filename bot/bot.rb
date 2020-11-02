@@ -8,9 +8,9 @@ def parse_gen_args(message)
     args = message.split
     args.shift
     raise "Error: can't generate certificate without reason (see /help)" if args.empty?
-    reason = args.shift.chomp
+    reason = args.shift
     raise "Error: can't generate certificate with unvalid reason `#{reason}`" unless REASONS.include?(reason)
-    delay = args.shift.chomp
+    delay = args.shift
     unless delay.nil?
         raise "Error: delay value is not an integer" if delay.to_i == 0 && delay != "0"
     end
