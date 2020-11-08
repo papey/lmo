@@ -38,7 +38,7 @@ for a quick generation.
 - "LMO_STREET"
 - "LMO_POSTAL_CODE"
 - "LMO_CITY"
-- "LMO_REASON" (supported values : "work", "purchase", "health", "familly", "handicap", "pets", "sport", "justice", "missions", "children")
+- "LMO_REASON" (supported values : "work", "purchase", "health", "family", "handicap", "pets", "sport", "justice", "missions", "children")
 
 With this method just pipe the output directly to the `lp` command and you're
 out !

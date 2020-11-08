@@ -12,7 +12,7 @@ class Filler
 
         # translation from english to french
         @translate = Hash["work" => "travail", "purchase" => "achats", "health" => "sante",
-            "familly" => "famille", "handicap" => "handicap", "pets" => "sport_animaux",
+            "family" => "famille", "handicap" => "handicap", "pets" => "sport_animaux",
             "sport" => "sport_animaux", "justice" => "convocation", "missions" => "missions",
             "children" => "enfants"]
 
