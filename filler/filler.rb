@@ -11,10 +11,10 @@ class Filler
         now = Time.now
 
         # translation from english to french
-        @translate = Hash["work" => "travail", "purchase" => "achats", "health" => "sante",
+        @translate = Hash["work" => "travail", "misc" => "achats_culturel_cultuel", "health" => "sante",
             "family" => "famille", "handicap" => "handicap", "pets" => "sport_animaux",
             "sport" => "sport_animaux", "justice" => "convocation", "missions" => "missions",
-            "children" => "enfants"]
+            "children" => "enfants", "kid" => "enfants"]
 
         values["LMO_REASON"] = @translate[values["LMO_REASON"]]
 
