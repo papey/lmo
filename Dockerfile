@@ -1,5 +1,5 @@
 # From latest ruby version
-FROM bearstech/ruby:2.6
+FROM bearstech/ruby:2.7
 
 # Declare args
 ARG REVISION
