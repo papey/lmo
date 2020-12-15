@@ -4,7 +4,7 @@ require 'yaml'
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
-REASONS = ["work", "misc", "health", "family", "handicap", "sport", "pets", "missions", "justice", "children", "kid"]
+REASONS = ["work", "health", "family", "handicap", "pets", "missions", "justice", "transits"]
 
 # get values for each key
 def get_values(reason=nil)
