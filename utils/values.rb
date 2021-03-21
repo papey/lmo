@@ -1,4 +1,5 @@
 require 'yaml'
+require 'i18n'
 
 # list keys
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
@@ -73,7 +74,7 @@ def get_values(reason=nil)
         end
     end
 
-    values
+    sanitize_values(values)
 end
 
 def values_from_profile(profile, reason)
@@ -92,5 +93,13 @@ def values_from_profile(profile, reason)
         end
     end
 
-    validation
+    sanitize_values(validation)
+end
+
+def sanitize_values(values)
+    I18n.available_locales = [:en]
+    KEYS.each do |key|
+        values[key] = I18n.transliterate(values[key]).sub(/[^\x00-\x7F]/, '')
+    end
+    values
 end
