@@ -52,7 +52,7 @@ def get_values(reason=nil)
             if key == "LMO_REASON" then
                 if reason.nil?
                     try = ""
-                    until reasons.include? try
+                    until REASONS.include? try
                         puts "Enter a value for key #{printable} (available choices (one only) : #{REASONS.join(", ")}):"
                         try = gets.chomp.downcase
                     end
