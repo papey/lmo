@@ -5,7 +5,12 @@ This is not a dance !
 LMO is a ruby app used to generate french "attestation de déplacement dérogatoire"
 directly from cli (and it's also a Telegram Bot, duh).
 
-Now supports QRCode output to SVG ! It works for the last curfew rules ! Yay !
+Now supports QRCode output to SVG !
+
+It works for the last curfew rules (from 19:00 to 6:00) ! Yay !
+
+⚠️ Context switching from curfew to daily is not implemented yet since
+there is no official release from the government. Stay tuned !
 
 ## Getting Started
 
