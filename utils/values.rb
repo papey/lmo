@@ -99,7 +99,9 @@ end
 def sanitize_values(values)
     I18n.available_locales = [:en]
     KEYS.each do |key|
+        if values[key].is_a? String
         values[key] = I18n.transliterate(values[key]).sub(/[^\x00-\x7F]/, '')
+    end
     end
     values
 end
