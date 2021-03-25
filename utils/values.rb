@@ -5,19 +5,25 @@ require 'i18n'
 KEYS = ["LMO_NAME", "LMO_FIRSTNAME", "LMO_BIRTH_DATE", "LMO_BIRTH_LOCATION", "LMO_STREET", "LMO_POSTAL_CODE", "LMO_CITY", "LMO_REASON"]
 
 # list valid reasons
-REASONS = ["work", "health", "family", "handicap", "pets", "missions", "justice", "transits"]
+CURFEW_REASONS = ["work", "health", "family", "handicap", "pets", "missions", "justice", "transit"]
+QUARANTINE_REASONS = ["sport", "kids", "religion", "culture", "process", "work", "health", "family", "handicap", "justice", "transit", "move", "needs"]
+
+CONTEXTS = ["quarantine", "curfew"]
 
 # get values for each key
-def get_values(reason=nil)
+def get_values(reason=nil, ctx="curfew")
     # birth date regex
     bdmatch = '\d\d\/\d\d\/\d\d\d\d'
+
+    # select between two sets of reasons
+    reasons = ctx == "curfew" ? CURFEW_REASONS : QUARANTINE_REASONS
 
     # create a hash containing values
     values = Hash.new
 
     # set reason if passed as argument
     unless reason.nil?
-        raise "Invalid reason" if !REASONS.include?(reason)
+        raise "Invalid reason" if !reasons.include?(reason)
         values["LMO_REASON"] = reason
     end
 
@@ -30,7 +36,7 @@ def get_values(reason=nil)
             # reason is an edge case
             if key == "LMO_REASON" then
                 try = ENV[key]
-                unless REASONS.include? try
+                unless reasons.include? try
                     puts "Error, reason from environment is not valid (available choices : #{REASONS.join(", ")})"
                     exit 1
                 end
@@ -53,8 +59,8 @@ def get_values(reason=nil)
             if key == "LMO_REASON" then
                 if reason.nil?
                     try = ""
-                    until REASONS.include? try
-                        puts "Enter a value for key #{printable} (available choices (one only) : #{REASONS.join(", ")}):"
+                    until reasons.include? try
+                        puts "Enter a value for key #{printable} (available choices for context `#{ctx}` (one only) : #{reasons.join(", ")}):"
                         try = gets.chomp.downcase
                     end
                     values[key] = try
@@ -100,8 +106,8 @@ def sanitize_values(values)
     I18n.available_locales = [:en]
     KEYS.each do |key|
         if values[key].is_a? String
-        values[key] = I18n.transliterate(values[key]).sub(/[^\x00-\x7F]/, '')
-    end
+            values[key] = I18n.transliterate(values[key]).sub(/[^\x00-\x7F]/, '')
+        end
     end
     values
 end

@@ -6,14 +6,16 @@ require 'erb'
 class Filler
 
     # init values
-    def initialize values, delay=0, from=0, templates="./filler/templates"
+    def initialize values, delay=0, from=0, ctx="curfew", templates="./filler/templates"
         # get current time
         now = Time.now
 
         # translation from english to french
         @translate = Hash["work" => "travail", "health" => "sante",
             "family" => "famille", "handicap" => "handicap", "pets" => "animaux",
-            "justice" => "convocation", "missions" => "missions", "transits" => "transits"]
+            "justice" => "judiciaire", "missions" => "missions", "transit" => "transit",
+            "sport" => "sport", "needs" => "achats", "kids" => "enfants", "culture" => "culte_culturel",
+            "religion" => "culte_culturel", "process" => "demarche", "move" => "demenagement"]
 
         values["LMO_REASON"] = @translate[values["LMO_REASON"]]
 
@@ -22,7 +24,7 @@ class Filler
 
         # templates
         @qr = File.read("#{templates}/qrcode.erb")
-        @text = File.read("#{templates}/attestation.erb")
+        @text = ctx == "curfew" ? File.read("#{templates}/curfew.erb") : File.read("#{templates}/quarantine.erb")
 
         # handle delay if specified
         time = now + delay*60

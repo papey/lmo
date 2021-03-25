@@ -1,0 +1,69 @@
+ATTESTATION DE DÉPLACEMENT DÉROGATOIRE
+Pour les personnes résidant dans les départements soumis à des mesures renforcées
+ENTRE 6 H ET 19 H
+En application de l’article 4 du décret n°2020-1310 du 29 octobre 2020 prescrivant les mesures générales nécessaires pour faire face à l’épidémie de COVID-19 dans le cadre de l’état d’urgence sanitaire
+
+Les déplacements sont autorisés sous réserve de justifier de l’un des motifs prévus dans la présente attestation.
+Dans un rayon de 10 km autour du lieu de résidence, les déplacements correspondants peuvent se faire sans attestation sous réserve de pouvoir présenter un justificatif de domicile.
+Pour les déplacements à l’extérieur des limites du département de résidence, ils ne sont possibles que pour les seuls motifs impérieux mentionnés aux 6 à 12 de la présente attestation.
+Ces motifs autorisent également les personnes résidant hors des départements soumis à des mesures renforcées à se rendre dans les départements concernés par ces mesures.
+
+Je soussigné(e),
+Mme/M. : <%= @values["LMO_NAME"] %> <%= @values["LMO_FIRSTNAME"] %>
+Né(e) le : <%= @values["LMO_BIRTH_DATE"] %> à : <%= @values["LMO_BIRTH_LOCATION"] %>
+Demeurant : <%= @values["LMO_STREET"] %> <%= @values["LMO_POSTAL_CODE"] %> <%= @values["LMO_CITY"] %>
+
+certifie que mon déplacement est lié au motif suivant (cocher la case) autorisé en application des mesures générales nécessaires pour faire face à l’épidémie de COVID-19 dans le cadre de l’état d’urgence sanitaire1 :
+
+Déplacements dans la limite de 10 kilomètres de son domicile
+
+1. Activité physique et promenade
+[<% if @values["LMO_REASON"] == "sport" %>X<% else %> <% end %>] Déplacements liés soit à la promenade, soit à l'activité physique individuelle des personnes.
+[Attestation à remplir seulement à défaut de pouvoir présenter un justificatif de domicile]
+
+Déplacements au sein du département de résidence
+
+2. Achats
+[<% if @values["LMO_REASON"] == "achats" %>X<% else %> <% end %>] Déplacements pour effectuer des achats de première nécessité ou des retraits de commandes
+
+3. Accompagnement des enfants à l’école
+[<% if @values["LMO_REASON"] == "enfants" %>X<% else %> <% end %>] Déplacements pour emmener et aller chercher les enfants à l’école et à l’occasion de leurs activités péri-scolaires
+
+4. Etablissement culturel ou lieu de culte
+[<% if @values["LMO_REASON"] == "culte_culturel" %>X<% else %> <% end %>] Déplacements pour se rendre dans un établissement culturel (bibliothèques et médiathèques) ou un lieu de culte
+
+5. Démarches administratives ou juridiques
+[<% if @values["LMO_REASON"] == "demarche" %>X<% else %> <% end %>] Déplacements pour se rendre dans un service public pour un acte ou une démarche qui ne peuvent être réalisés à distance
+
+Déplacements sans limitation de distance :
+
+6. Activité professionnelle, enseignement et formation, mission d’intérêt général
+[<% if @values["LMO_REASON"] == "travail" %>X<% else %> <% end %>] Déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle ou le lieu d’enseignement et de formation, déplacements professionnels ne pouvant être différés, livraisons à domicile, déplacements pour effectuer des achats de fournitures nécessaires à l'activité professionnelle, déplacements liés à des missions d’intérêt général sur demande de l’autorité administrative
+
+7. Santé (consultations et soins)
+[<% if @values["LMO_REASON"] == "sante" %>X<% else %> <% end %>] Déplacements pour des consultations, examens, actes de prévention (dont vaccination) et soins ne pouvant être assurés à distance ou pour l’achat de produits de santé
+
+8. Motif familial impérieux, personnes vulnérables ou précaires ou gardes d’enfants
+[<% if @values["LMO_REASON"] == "famille" %>X<% else %> <% end %>] Déplacements pour motif familial impérieux, pour l’assistance aux personnes vulnérables ou  précaires ou pour la garde d’enfants
+
+9. Situation de handicap
+[<% if @values["LMO_REASON"] == "handicap" %>X<% else %> <% end %>] Déplacements des personnes en situation de handicap et de leur accompagnant
+
+10. Convocation judiciaire ou administrative
+[<% if @values["LMO_REASON"] == "judiciaire" %>X<% else %> <% end %>] Déplacements pour répondre à une convocation judiciaire ou administrative, déplacements pour se rendre chez un professionnel du droit, pour un acte ou une démarche qui ne peuvent être réalisés à distance
+
+11. Déménagement
+[<% if @values["LMO_REASON"] == "demenagement" %>X<% else %> <% end %>] Déplacements liés à un déménagement résultant d'un changement de domicile et déplacements indispensables à l'acquisition ou à la location d’une résidence principale, insusceptibles d'être différés
+
+12. Déplacement de transit vers les gares et les aéroports
+[<% if @values["LMO_REASON"] == "transit" %>X<% else %> <% end %>]
+
+
+Fait à : <%= @values["LMO_CITY"] %>
+Le : <%= @created.strftime("%d/%m/%Y") %> à <%= @created.strftime("%Hh%M") %>
+
+(Date et heure de début de sortie à mentionner obligatoirement)
+
+<%= @date %> à <%= @time %>
+
+Signature :

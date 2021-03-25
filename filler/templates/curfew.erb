@@ -22,13 +22,13 @@ certifie que mon déplacement est lié au motif suivant (cocher la case) autoris
 [<% if @values["LMO_REASON"] == "handicap" %>X<% else %> <% end %>] Déplacements des personnes en situation de handicap et de leur accompagnant
 
 5. Convocation judiciaire ou administrative
-[<% if @values["LMO_REASON"] == "convocation" %>X<% else %> <% end %>] Déplacements pour répondre à une convocation judiciaire ou administrative, déplacements pour se rendre chez un professionnel du droit, pour un acte ou une démarche qui ne peuvent être réalisés à distance
+[<% if @values["LMO_REASON"] == "judiciaire" %>X<% else %> <% end %>] Déplacements pour répondre à une convocation judiciaire ou administrative, déplacements pour se rendre chez un professionnel du droit, pour un acte ou une démarche qui ne peuvent être réalisés à distance
 
 6. Mission d’intérêt général
 [<% if @values["LMO_REASON"] == "missions" %>X<% else %> <% end %>] Déplacements pour participer à des missions d’intérêt général sur demande de l’autorité administrative
 
 7. Déplacements de transit et longue distance
-[<% if @values["LMO_REASON"] == "transits" %>X<% else %> <% end %>] DDéplacements liés à des transits ferroviaires, aériens ou en bus pour des déplacements de longues distances
+[<% if @values["LMO_REASON"] == "transit" %>X<% else %> <% end %>] DDéplacements liés à des transits ferroviaires, aériens ou en bus pour des déplacements de longues distances
 
 8. Animaux de compagnie
 [<% if @values["LMO_REASON"] == "animaux" %>X<% else %> <% end %>] Déplacements brefs dans un rayon maximal d'un kilomètre autour du domicile pour les besoins des animaux de compagnie

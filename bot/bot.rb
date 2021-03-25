@@ -8,8 +8,11 @@ def parse_gen_args(message)
     args = message.split
     args.shift
     raise "Error: can't generate certificate without reason (see /help)" if args.empty?
+    ctx = args.shift
+    raise "Error: can't generate certificate with unvalid ctx `#{ctx}`" unless CONTEXTS.include?(ctx)
+    reasons = ctx == "curfew" ? CURFEW_REASONS : QUARANTINE_REASONS
     reason = args.shift
-    raise "Error: can't generate certificate with unvalid reason `#{reason}`" unless REASONS.include?(reason)
+    raise "Error: can't generate certificate with unvalid reason `#{reason}`" unless reasons.include?(reason)
     delay = args.shift
     unless delay.nil?
         raise "Error: delay value is not an integer" if delay.to_i == 0 && delay != "0"
@@ -27,10 +30,10 @@ def parse_gen_args(message)
         raise "Error: creation time is after departure time check shift and delay options"
     end
 
-    return reason, delay, shift
+    return reason, delay, shift, ctx
 end
 
-def generate_and_send(bot, message, reason, delay=0, shift=0)
+def generate_and_send(bot, message, reason, delay=0, shift=0, ctx)
     # get values
     values = values_from_profile(message.from.id, reason)
     # init filler
@@ -55,9 +58,10 @@ Available commands for LMO
 
     - /me: get your Telegram user ID
 
-    - /gen <reason> <delay> (optional) <shift> (optional): generate a certificate for command author using specified reason
+    - /gen <context> <reason> <delay> (optional) <shift> (optional): generate a certificate for command author using specified reason
         Arguments:
-            reasons: #{REASONS.join(", ")}
+            context : #{CONTEXTS.join(", ")}
+            reasons: curfew : #{CURFEW_REASONS.join(", ")} | quarantine : #{QUARANTINE_REASONS.join(", ")}
             delay: integer, delay departure time from now +/- N minutes (supports positive and negative values)
             shift: integer < 0, shift creation time from nom to N minutes in the past (supports only negative values)
 END
@@ -77,8 +81,8 @@ Telegram::Bot::Client.run(token) do |bot|
 
         when message.text.start_with?("/gen")
             begin
-                reason, delay, shift = parse_gen_args(message.text)
-                generate_and_send(bot, message, reason, delay, shift)
+                reason, delay, shift, ctx = parse_gen_args(message.text)
+                generate_and_send(bot, message, reason, delay, shift, ctx)
             rescue Errno::ENOENT => e
                 STDERR.puts e
                 bot.api.send_message(chat_id: message.chat.id, text: "Error: profile for user id `#{message.from.id}` not found")

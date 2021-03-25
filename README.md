@@ -9,8 +9,7 @@ Now supports QRCode output to SVG !
 
 It works for the last curfew rules (from 19:00 to 6:00) ! Yay !
 
-⚠️ Context switching from curfew to daily is not implemented yet since
-there is no official release from the government. Stay tuned !
+Context switching from **curfew** to **quarantine** is now available ! Yay !
 
 ## Getting Started
 
@@ -24,6 +23,17 @@ there is no official release from the government. Stay tuned !
 ```sh
 bundle install
 ```
+
+### Contexts
+
+LMO is now aware of contexts (thx to our administration for this `s i m p l i c i t y`).
+
+For now two kinds of contexts are supported :
+
+- curfew (default)
+- quarantine
+
+Switching context changes internal values to match both reasons and text template
 
 ### Usage (cli mode)
 

@@ -22,7 +22,7 @@ end
 
 # parse command line arguments
 # store everyting in a Hmap
-options = {:delay => 0, :shift => 0}
+options = {:delay => 0, :shift => 0, :ctx => "curfew"}
 OptionParser.new do |opts|
     opts.banner = "Usage: lmo.rb [options]"
 
@@ -42,14 +42,24 @@ OptionParser.new do |opts|
         options[:out] = v
     end
 
+    opts.on("-c", "--ctx=CONTEXT", "choose between daily or quarantine context") do |v|
+        if CONTEXTS.include?(v.downcase)
+            options[:ctx] = v
+        else
+            puts "[Error] specified context value `#{v.downcase}` is not a valid context (available choices : #{CONTEXTS.join(", ")}"
+            exit 1
+        end
+    end
+
     # use qrcode
     opts.on("-qr", "--qrcode", "output to qrcode (plain text data if no output specified, as svg image if output specified)") do |v|
         options[:qr] = v
     end
 
     # use custom reason
-    opts.on("-r", "--reason=REASON", "pass reason as parameter (available choices : #{REASONS.join(", ")})") do |v|
-        if REASONS.include?(v.downcase)
+    opts.on("-r", "--reason=REASON", "pass reason as parameter (available choices : with curfew context : #{CURFEW_REASONS.join(", ")}) | with quarantine context : #{QUARANTINE_REASONS.join(", ")}") do |v|
+        reasons = options[:ctx] == "curfew" ? CURFEW_REASONS : QUARANTINE_REASONS
+        if reasons.include?(v.downcase)
             options[:reason] = v
         else
             puts "[Error] specified delay value `#{v.downcase}` is not a valid reason"
@@ -118,11 +128,11 @@ if options[:profile] then
         exit 1
     end
 else
-    values = get_values(options[:reason])
+    values = get_values(options[:reason], options[:ctx])
 end
 
 # Create class and bind values to it
-f = Filler.new values, options[:delay], options[:shift]
+f = Filler.new values, options[:delay], options[:shift], options[:ctx]
 
 # 👀
 log options, "https://www.youtube.com/watch?v=SdsJDLSI_Mo"
