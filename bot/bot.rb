@@ -28,37 +28,37 @@ def parse_gen_args(message)
   delay = delay.to_i
   shift = shift.to_i
 
-  raise 'Error: creation time is after departure time check shift and delay options' unless time_valid?(shift, delay)
+  raise 'Error: creation time is after departure time check shift and delay options' if time_invalid?(shift, delay)
 
   [reason, delay, shift, ctx]
 end
 
-def time_valid?(shift, delay)
+def time_invalid?(shift, delay)
   Time.now + shift * 60 > Time.now + delay * 60
 end
 
-def generate_and_send(bot, message, reason, delay: 0, shift: 0)
+def generate_and_send(bot, message, reason, delay: 0, shift: 0, ctx: 'curfew')
   # get values
   values = values_from_profile(message.from.id, reason)
   # init filler
-  f = Filler.new values, delay, shift
+  f = Filler.new values, delay: delay, from: shift, ctx: ctx
   # certificate
-  gen_and_send_cert(f, bot)
+  gen_and_send_cert(f, bot, message.chat.id)
   # qr-code
-  gen_and_send_qr(f, bot)
+  gen_and_send_qr(f, bot, message.chat.id)
 end
 
-def gen_and_send_cert(filler, bot)
+def gen_and_send_cert(filler, bot, chat_id)
   cert = temp(filler.fill, 'cert')
-  bot.api.send_document(chat_id: message.chat.id,
-                        document: Faraday::UploadIO.new(cert.path, 'text/plain'), caption: "Certificate: #{f.id}")
+  bot.api.send_document(chat_id: chat_id,
+                        document: Faraday::UploadIO.new(cert.path, 'text/plain'), caption: "Certificate: #{filler.id}")
   cert.unlink
 end
 
-def gen_and_send_qr(filler, bot)
+def gen_and_send_qr(filler, bot, chat_id)
   qrcode = temp(filler.gen_qr.as_png(size: 500), 'qrcode')
-  bot.api.send_photo(chat_id: message.chat.id,
-                     photo: Faraday::UploadIO.new(qrcode.path, 'image/png'), caption: "QR Code: #{f.id}")
+  bot.api.send_photo(chat_id: chat_id,
+                     photo: Faraday::UploadIO.new(qrcode.path, 'image/png'), caption: "QR Code: #{filler.id}")
   qrcode.unlink
 end
 
@@ -84,7 +84,7 @@ HELP
 Telegram::Bot::Client.run(token) do |bot|
   puts "Going into listen mode with token #{token}"
   bot.listen do |message|
-    next if text.nil?
+    next if message.text.nil?
 
     if message.text == '/start' || message.text == '/help'
       bot.api.send_message(chat_id: message.chat.id, text: HELP)
@@ -93,7 +93,7 @@ Telegram::Bot::Client.run(token) do |bot|
     elsif message.text.start_with?('/gen')
       begin
         reason, delay, shift, ctx = parse_gen_args(message.text)
-        generate_and_send(bot, message, reason, delay, shift, ctx)
+        generate_and_send(bot, message, reason, delay: delay, shift: shift, ctx: ctx)
       rescue Errno::ENOENT => e
         warn e
         bot.api.send_message(chat_id: message.chat.id,
