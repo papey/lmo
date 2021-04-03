@@ -23,9 +23,11 @@ class Filler
     # map values fetch from env or cli
     @values = values
 
+    @ctx = ctx
+
     # templates
     @qr = File.read("#{templates}/qrcode.erb")
-    @text = ctx == 'curfew' ? File.read("#{templates}/curfew.erb") : File.read("#{templates}/quarantine.erb")
+    @text = @ctx == 'curfew' ? File.read("#{templates}/curfew.erb") : File.read("#{templates}/quarantine.erb")
 
     # handle delay if specified
     time = now + delay * 60
@@ -53,6 +55,6 @@ class Filler
 
   def id
     date = @created.strftime('%d/%m/%Y - %H:%M')
-    "#{@values['LMO_NAME']} #{@values['LMO_FIRSTNAME']} | #{date} | #{@values['LMO_REASON']}"
+    "#{@values['LMO_NAME']} #{@values['LMO_FIRSTNAME']} | #{date} | #{@values['LMO_REASON']} | #{@ctx}"
   end
 end
