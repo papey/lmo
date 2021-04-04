@@ -30,8 +30,8 @@ LMO is now aware of contexts (thx to our administration for this `s i m p l i c 
 
 For now two kinds of contexts are supported :
 
-- curfew (default)
-- quarantine
+- curfew
+- quarantine (default)
 
 Switching context changes internal values to match both reasons and text template
 
