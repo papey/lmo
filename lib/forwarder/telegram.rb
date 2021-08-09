@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'telegram/bot'
-require './utils/temp'
+require_relative '../utils/temp'
 
 # Class to send message to Telegram
 class Tlgrm

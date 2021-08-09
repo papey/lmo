@@ -8,12 +8,12 @@ require 'optparse'
 # qrcode
 require 'rqrcode'
 # filler
-require './filler/filler'
+require_relative '../lib/filler/filler'
 # values
-require './utils/values'
+require_relative '../lib/utils/values'
 # forwarders
-require './forwarder/mails'
-require './forwarder/telegram'
+require_relative '../lib/forwarder/mails'
+require_relative '../lib/forwarder/telegram'
 
 # log, used in verbose mode
 def log(opts, message)

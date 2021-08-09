@@ -41,7 +41,7 @@ LABEL org.opencontainers.image.description="lmo runtime"
 LABEL org.opencontainers.image.licences="ANTI-FASCIST LICENSE"
 
 # setup default args
-CMD ["exec", "ruby", "bot/bot.rb"]
+CMD ["exec", "ruby", "bin/bot.rb"]
 
 # setup entrypoint command
 ENTRYPOINT ["bundle"]

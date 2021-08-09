@@ -38,7 +38,7 @@ Switching context changes internal values to match both reasons and text templat
 ### Usage (cli mode)
 
 ```sh
-bundle exec ruby lmo.rb --help
+bundle exec ruby bin/lmo.rb --help
 ```
 
 #### Get values from env
@@ -119,7 +119,7 @@ check `https://api.telegram.org/bot$BOT_TOKEN/getUpdates` and replace bot token 
 LMO now supports a Telegram Bot mode ! (kudos [@tomMoulard](https://github.com/tomMoulard) for the motivation)
 
 ```bash
-LMO_TELEGRAM_TOKEN=VALUE bundle exec ruby bot/bot.rb
+LMO_TELEGRAM_TOKEN=VALUE bundle exec ruby bin/bot.rb
 ```
 
 Use `/start` or `/help` to get help message.

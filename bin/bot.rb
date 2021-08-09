@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'telegram/bot'
-require './utils/values'
-require './utils/temp'
-require './filler/filler'
-require './forwarder/telegram'
+require_relative '../lib/utils/values'
+require_relative '../lib/utils/temp'
+require_relative '../lib/filler/filler'
+require_relative '../lib/forwarder/telegram'
 
 def parse_gen_args(message)
   args = message.split

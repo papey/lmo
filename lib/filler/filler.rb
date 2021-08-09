@@ -7,7 +7,7 @@ require 'erb'
 # Tiny class handling all the variables
 class Filler
   # init values
-  def initialize(values, delay: 0, from: 0, ctx: 'curfew', templates: './filler/templates')
+  def initialize(values, delay: 0, from: 0, ctx: 'curfew', templates: './lib/filler/templates')
     # get current time
     now = Time.now
 
